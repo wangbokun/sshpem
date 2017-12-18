@@ -1,32 +1,12 @@
 package main
 
 import (
-	"easyWork/ops/skm"
-	"os"
-	"os/exec"
 	"path/filepath"
 
 	"github.com/fatih/color"
+	"github.com/wangbokun/gowork/exec"
+	"github.com/wangbokun/sshpem/models"
 )
-
-func Execute(workDir, script string, args ...string) bool {
-	cmd := exec.Command(script, args...)
-
-	if workDir != "" {
-		cmd.Dir = workDir
-	}
-
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-
-	if err := cmd.Run(); err != nil {
-		color.Red("%s%s", CrossSymbol, err.Error())
-		return false
-	}
-
-	return true
-}
 
 func main() {
 	args := []string{}
@@ -42,7 +22,7 @@ func main() {
 	args = append(args, "-f")
 	args = append(args, filepath.Join("/tmp/", "", "wangbokun"))
 
-	Execute("", "ssh-keygen", args...)
-	color.Green("%sSSH key [%s] created!", skm.CheckSymbol, "alias")
+	exec.Execute("", "ssh-keygen", args...)
+	color.Green("%sSSH key [%s] created!", models.CheckSymbol, "alias")
 
 }
